@@ -10,7 +10,7 @@ pipeline {
         }
         stage('Lint Python') {
           steps {
-            sh 'pylint --disable=R,C,W1203 app.py'
+            sh 'make setup; make pylint'
           }
         }
         stage('HadoLint - Docker') {
