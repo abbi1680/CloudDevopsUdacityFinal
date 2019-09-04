@@ -1,14 +1,14 @@
 pipeline {
   agent any
   stages {
-    stage('Lint HTML') {
+    stage('Linting') {
       parallel {
-        stage('first test') {
+        stage('Lint HTML') {
           steps {
             sh ' tidy -q -e templates/*.html'
           }
         }
-        stage('Lint PY') {
+        stage('Lint Python') {
           steps {
             sh 'pylint --disable=R,C,W1203 app.py'
           }
