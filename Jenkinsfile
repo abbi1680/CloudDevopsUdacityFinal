@@ -10,7 +10,7 @@ pipeline {
         }
         stage('Lint Python') {
           steps {
-            sh 'make setup; make pylint'
+            sh 'make setup ; make install; make pylint'
           }
         }
         stage('HadoLint - Docker') {
