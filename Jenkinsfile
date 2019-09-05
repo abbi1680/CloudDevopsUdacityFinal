@@ -1,6 +1,11 @@
 pipeline {
   agent any
   stages {
+    stage('env configuration') {
+      steps {
+        sh 'make setup;make install'
+      }
+    }
     stage('Linting') {
       parallel {
         stage('Lint HTML') {
@@ -10,7 +15,7 @@ pipeline {
         }
         stage('Lint Python') {
           steps {
-            sh 'pylint --disable=R,C,W1203 app.py'
+            sh 'make pylint'
           }
         }
       }
