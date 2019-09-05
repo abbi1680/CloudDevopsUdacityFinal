@@ -10,7 +10,7 @@ pipeline {
         }
         stage('Lint Python') {
           steps {
-            sh 'echo "choose something else"'
+            sh 'pylint --disable=R,C,W1203 app.py'
           }
         }
       }
