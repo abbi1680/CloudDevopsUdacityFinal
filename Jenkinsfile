@@ -18,6 +18,11 @@ pipeline {
             sh 'make pylint'
           }
         }
+        stage('Lint DockerFile') {
+          steps {
+            sh 'make hadolint'
+          }
+        }
       }
     }
     stage('Build Container') {
