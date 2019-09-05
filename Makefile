@@ -14,6 +14,8 @@ setup:
 install:
 	# This should be run from inside a virtualenv
 	pip3 install -r requirements.txt
+        wget -O /bin/hadolint https://github.com/hadolint/hadolint/releases/download/v1.16.3/hadolint-Linux-x86_64 &&\
+        chmod +x /bin/hadolint
 
 test:
 	# Additional, optional, tests could go here
@@ -23,8 +25,6 @@ test:
 hadolint:
 	# See local hadolint install instructions:   https://github.com/hadolint/hadolint
 	# This is linter for Dockerfiles
-        wget -O /bin/hadolint https://github.com/hadolint/hadolint/releases/download/v1.16.3/hadolint-Linux-x86_64 &&\
-        chmod +x /bin/hadolint
 	hadolint Dockerfile
 pylint:
 	# This is a linter for Python source code linter: https://www.pylint.org/
