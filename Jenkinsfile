@@ -28,6 +28,10 @@ pipeline {
     stage('Build Container') {
       steps {
         echo 'building container'
+        sh '''docker build --tag=maxblogapi .
+'''
+        sh '''docker image ls
+'''
       }
     }
     stage('Docker Push') {
