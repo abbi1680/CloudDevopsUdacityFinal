@@ -40,11 +40,12 @@ pipeline {
         sh '''echo "tag the newly created image to the repo";
 
 docker tag maxblogapi:latest 175374130779.dkr.ecr.us-east-2.amazonaws.com/maxblog-repo:latest'''
-        script{        
-		docker.withRegistry('https://175374130779.dkr.ecr.us-east-2.amazonaws.com', 'ecr:aws-final') {
-    		docker.image('175374130779.dkr.ecr.us-east-2.amazonaws.com/maxblog-repo').push('latest')
-		}
-	}
+        script {
+          docker.withRegistry('https://175374130779.dkr.ecr.us-east-2.amazonaws.com', 'ecr:ecr-aws') {
+            docker.image('175374130779.dkr.ecr.us-east-2.amazonaws.com/maxblog-repo').push('latest')
+          }
+        }
+
       }
     }
     stage(' registry check') {
