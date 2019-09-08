@@ -42,7 +42,7 @@ pipeline {
 docker tag maxblogapi:latest 175374130779.dkr.ecr.us-east-2.amazonaws.com/maxblog-repo:latest'''
         script{        
 		docker.withRegistry('https://175374130779.dkr.ecr.us-east-2.amazonaws.com', 'AWS-Final') {
-    		docker.image('demo').push('latest')
+    		docker.image('175374130779.dkr.ecr.us-east-2.amazonaws.com/maxblog-repo').push('latest')
 		}
 	}
       }
