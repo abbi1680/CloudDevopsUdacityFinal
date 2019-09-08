@@ -37,6 +37,13 @@ pipeline {
     stage('Docker Push') {
       steps {
         echo 'pushing the image to registry'
+        sh '''echo "tag the newly created image to the repo";
+
+docker tag maxblogapi:latest 175374130779.dkr.ecr.us-east-2.amazonaws.com/maxblog-repo:latest'''
+        sh '$(aws ecr get-login --no-include-email --region us-east-2)'
+        sh '''docker push 175374130779.dkr.ecr.us-east-2.amazonaws.com/maxblog-repo:latest
+
+'''
       }
     }
     stage(' registry check') {
