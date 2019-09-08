@@ -40,7 +40,6 @@ pipeline {
         sh '''echo "tag the newly created image to the repo";
 
 docker tag maxblogapi:latest 175374130779.dkr.ecr.us-east-2.amazonaws.com/maxblog-repo:latest'''
-        sh '$(aws ecr get-login --no-include-email --region us-east-2)'
         script{        
 		docker.withRegistry('https://175374130779.dkr.ecr.us-east-2.amazonaws.com/maxblog-repo', 'ecr:us-east-2:AWS-Final') {
     		docker.image('demo').push('latest')
