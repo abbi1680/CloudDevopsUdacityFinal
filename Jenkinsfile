@@ -41,9 +41,9 @@ pipeline {
 
 docker tag maxblogapi:latest 175374130779.dkr.ecr.us-east-2.amazonaws.com/maxblog-repo:latest'''
         sh '$(aws ecr get-login --no-include-email --region us-east-2)'
-        sh '''docker push 175374130779.dkr.ecr.us-east-2.amazonaws.com/maxblog-repo:latest
-
-'''
+        docker.withRegistry('https://175374130779.dkr.ecr.us-east-2.amazonaws.com/maxblog-repo', 'ecr:us-east-2:AWS-Final') {
+    	docker.image('demo').push('latest')
+	}
       }
     }
     stage(' registry check') {
