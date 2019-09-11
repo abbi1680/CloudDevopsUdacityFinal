@@ -12,5 +12,5 @@ docker image ls
 
 # Step 3: 
 # Run flask app
-#docker run -p 80:5000 maxblogapi
+docker run -p 80:5000 maxblogapi
 

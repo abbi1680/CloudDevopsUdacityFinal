@@ -79,7 +79,8 @@ Resources:
             Tags: 
                 -   Key: Name
                     Value: !Sub ${EnvironmentName} Private Subnet (AZ1)
-
+                -   Key: kubernetes.io/role/internal-elb
+                    Value: 1
     PrivateSubnet2:
         Type: AWS::EC2::Subnet
         Properties:
@@ -90,6 +91,8 @@ Resources:
             Tags: 
                 -   Key: Name
                     Value: !Sub ${EnvironmentName} Private Subnet (AZ2)
+                -   Key: kubernetes.io/role/internal-elb
+                    Value: 1
     NatGateway1EIP:
         Type: AWS::EC2::EIP
         DependsOn: InternetGatewayAttachment
@@ -185,6 +188,29 @@ Resources:
             RouteTableId: !Ref PrivateRouteTable2
             SubnetId: !Ref PrivateSubnet2
 
+    ClusterSharedNodeSecurityGroup:
+        Type: AWS::EC2::SecurityGroup
+        Properties:
+            GroupDescription: Communication between all nodes in the cluster
+            Tags:
+                - Key: Name
+                  Value: !Sub "${EnvironmentName}/ClusterSharedNodeSecurityGroup"
+            VpcId: !Ref VPC
+    ServiceRole:
+        Type: AWS::IAM::Role
+        Properties:
+            AssumeRolePolicyDocument:
+                Statement:
+                    - Action:
+                      - sts:AssumeRole
+                      Effect: Allow
+                      Principal:
+                        Service:
+                        - eks.amazonaws.com
+                Version: '2012-10-17'
+            ManagedPolicyArns:
+            - arn:aws:iam::aws:policy/AmazonEKSServicePolicy
+            - arn:aws:iam::aws:policy/AmazonEKSClusterPolicy
 Outputs:
     VPC: 
         Description: A reference to the created VPC

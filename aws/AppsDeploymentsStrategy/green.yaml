@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: maxblog-deployment-green
+spec:
+  selector:
+    matchLabels:
+      app: maxblogapi
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: maxblogapi
+        role: blue
+    spec:
+      imagePullSecrets:
+      - name: awsecr-cred
+      containers:
+      - name: maxblogapi
+        image: 175374130779.dkr.ecr.us-east-2.amazonaws.com/maxblog-repo:latest
+        ports:
+        - containerPort: 5000
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 5000
+
