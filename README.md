@@ -4,12 +4,12 @@ This is the final project implementation of Cloud Devops Nanodegree of Udacity. 
 ## Getting Started
 
 ### Repo descriptions
-aws/network-infra : It contains scripts to create a registry on Amazon ECR, deploy A VPC (network for kubernetes), deploy an EKS Cluster and NodesWorkers <br />
-aws/deployments : It contains deployments descriptions and services to make a blue green deployments with jenkins <br />
-dockerfile : instructions to build the container <br />
-jenkinsfile : the pipeline used for continuous integration and deployment <br />
-rundocker.sh : script to build and run a container locally  <br />
-All other files are part of the flask web app i have made
+`aws/network-infra` : It contains scripts to create a registry on Amazon ECR, deploy A VPC (network for kubernetes), deploy an EKS Cluster and NodesWorkers <br />
+`aws/deployments` : It contains deployments descriptions and services to make a blue green deployments with jenkins <br />
+`dockerfile` : instructions to build the container <br />
+`jenkinsfile` : the pipeline used for continuous integration and deployment <br />
+`rundocker.sh` : script to build and run a container locally  <br />
+`All other files` are part of the flask web app i have made
  
 What things you need to install the software and how to install them
 
