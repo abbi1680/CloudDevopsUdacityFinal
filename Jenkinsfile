@@ -56,7 +56,7 @@ docker tag maxblogapi:$version 175374130779.dkr.ecr.us-east-2.amazonaws.com/maxb
       steps {
         echo 'deploying the application'
         sh '''version=$(cut -d= -f2 app_version.txt );DEPLOYMENT=blue IMAGE_TAG=$version 
-envsubst < aws/AppsDeploymentsStrategy/deployment.yml | kubectl apply -f -'''
+envsubst < aws/AppsDeploymentsStrategy/deployment.yml | cat'''
       }
     }
     stage('Test deployed App') {
