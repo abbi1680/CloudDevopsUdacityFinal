@@ -70,7 +70,7 @@ fi'''
       steps {
         echo 'create a new service for test purposes if needed'
         sh 'DEPLOYMENT=$(cat inactiveEnv.txt) envsubst < aws/AppsDeploymentsStrategy/testEndpoint.yaml | kubectl apply -f -'
-        sh '''DEPLOYMENTNAME=maxblog-deployment-${cat inactiveEnv.txt};
+        sh '''DEPLOYMENTNAME=maxblog-deployment-$(cat inactiveEnv.txt);
 READY=$(kubectl get deploy $DEPLOYMENTNAME -o json | jq \'.status.conditions[] | select(.reason == "MinimumReplicasAvailable") | .status\' | tr -d \'"\')
 while [[ "$READY" != "True" ]]; do
     READY=$(kubectl get deploy $DEPLOYMENTNAME -o json | jq \'.status.conditions[] | select(.reason == "MinimumReplicasAvailable") | .status\' | tr -d \'"\')
