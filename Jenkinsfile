@@ -49,7 +49,7 @@ docker tag maxblogapi:$version 175374130779.dkr.ecr.us-east-2.amazonaws.com/maxb
       steps {
         echo 'check whether Blue or Green Environment is acitve'
         sh 'aws eks --region us-east-2 update-kubeconfig --name prodCluster; kubectl get svc'
-        sh '''isblue=$(kubectl get deployments | grep maxblogapi |grep blue|wc -l);
+        sh '''isblue=$(kubectl get deployments | grep maxblog |grep blue|wc -l);
 if [ $isblue -eq "1" ]
 then
    echo "green">inactiveEnv.txt;
@@ -67,7 +67,7 @@ fi'''
     stage('Test deployed App') {
       steps {
         echo 'create a new service for test purposes if needed'
-        sh 'DEPLOYMENT=$(cat inactiveEnv.txt) envsubst < aws/AppsDeploymentsStrate/testEndpoint.yml | kubectl apply -f -'
+        sh 'DEPLOYMENT=$(cat inactiveEnv.txt) envsubst < aws/AppsDeploymentsStrategy/testEndpoint.yml | kubectl apply -f -'
       }
     }
     stage('Switching Services ') {
