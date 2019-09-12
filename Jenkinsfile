@@ -28,7 +28,8 @@ pipeline {
     stage('Build Container') {
       steps {
         echo 'building container'
-        sh '''docker build --tag=maxblogapi .
+        sh '''version =  cut -d= -f2 app_version.txt 
+;docker build --tag=maxblogapi:$version .
 '''
         sh '''docker image ls
 '''
@@ -37,30 +38,44 @@ pipeline {
     stage('Docker Push') {
       steps {
         echo 'pushing the image to registry'
-        sh '''echo "tag the newly created image to the repo";
+        sh '''version= cut -d= -f2 app_version.txt 
+;echo "tag the newly created image to the repo";
 
-docker tag maxblogapi:latest 175374130779.dkr.ecr.us-east-2.amazonaws.com/maxblog-repo:latest'''
+docker tag maxblogapi:$version 175374130779.dkr.ecr.us-east-2.amazonaws.com/maxblog-repo:$version'''
         sh '$(aws ecr get-login --no-include-email --region us-east-2);docker push 175374130779.dkr.ecr.us-east-2.amazonaws.com/maxblog-repo:latest'
       }
     }
-    stage(' registry check') {
+    stage('check Active Env') {
       steps {
-        echo 'check the lastest image'
-      }
-    }
-    stage('PreDeploy Check') {
-      steps {
-        echo 'check if kube is here'
+        echo 'check whether Blue or Green Environment is acitve'
+        sh 'kubectl get deployments | grep maxblogapi |wc -l'
       }
     }
     stage('Deploy') {
       steps {
+        echo 'deploying the application'
+        sh '''DEPLOYMENT=blue IMAGE_TAG=latest \\
+envsubst < aws/AppsDeploymentsStrategy/deployment.yml | kubectl apply -f -'''
+      }
+    }
+    stage('Test deployed App') {
+      steps {
         echo 'deployement'
       }
     }
-    stage('Test app') {
+    stage('Switching Services ') {
       steps {
         echo 'Test the application'
+      }
+    }
+    stage('Test Prod OK') {
+      steps {
+        echo 'Test the new Pods are OK'
+      }
+    }
+    stage('Delete old App') {
+      steps {
+        echo 'delete old app as the new is active'
       }
     }
   }
