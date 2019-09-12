@@ -53,8 +53,10 @@ docker tag maxblogapi:$version 175374130779.dkr.ecr.us-east-2.amazonaws.com/maxb
 if [ $isblue -eq "1" ]
 then
    echo "green">inactiveEnv.txt;
+  echo "blue">activeEnv.txt;
 else
    echo "blue">inactiveEnv.txt;	
+   echo "green">activeEnv.txt;
 fi'''
       }
     }
@@ -64,10 +66,16 @@ fi'''
         sh 'version=$(cut -d= -f2 app_version.txt );DEPLOYMENT=$(cat inactiveEnv.txt) IMAGE_TAG=$version envsubst < aws/AppsDeploymentsStrategy/deployment.yml | kubectl apply -f -'
       }
     }
-    stage('Test deployed App') {
+    stage('Waiting for completion and running a test endpoint') {
       steps {
         echo 'create a new service for test purposes if needed'
-        sh 'DEPLOYMENT=$(cat inactiveEnv.txt) envsubst < aws/AppsDeploymentsStrategy/testEndpoint.yml | kubectl apply -f -'
+        sh 'DEPLOYMENT=$(cat inactiveEnv.txt) envsubst < aws/AppsDeploymentsStrategy/testEndpoint.yaml | kubectl apply -f -'
+        sh '''DEPLOYMENTNAME=maxblog-deployment-${cat inactiveEnv.txt};
+READY=$(kubectl get deploy $DEPLOYMENTNAME -o json | jq \'.status.conditions[] | select(.reason == "MinimumReplicasAvailable") | .status\' | tr -d \'"\')
+while [[ "$READY" != "True" ]]; do
+    READY=$(kubectl get deploy $DEPLOYMENTNAME -o json | jq \'.status.conditions[] | select(.reason == "MinimumReplicasAvailable") | .status\' | tr -d \'"\')
+    sleep 5
+done'''
       }
     }
     stage('Switching Services ') {
@@ -78,12 +86,13 @@ fi'''
     }
     stage('Test Prod OK') {
       steps {
-        echo 'Test the new Pods are OK'
+        echo 'Test the new Pods are OK and confirm the delete of the app'
       }
     }
     stage('Delete old App and Test Service') {
       steps {
         echo 'delete old app as the new is active'
+        sh '#kubectl delete service  maxblogapi-service-test;#kubectl delete deployment maxblog-deployment-$(cat activeEnv)'
       }
     }
   }
