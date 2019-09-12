@@ -28,8 +28,7 @@ pipeline {
     stage('Build Container') {
       steps {
         echo 'building container'
-        sh '''version =  cut -d= -f2 app_version.txt 
-;docker build --tag=maxblogapi:$version .
+        sh '''version=$(cut -d= -f2 app_version.txt );docker build --tag=maxblogapi:$version .
 '''
         sh '''docker image ls
 '''
@@ -38,8 +37,7 @@ pipeline {
     stage('Docker Push') {
       steps {
         echo 'pushing the image to registry'
-        sh '''version= cut -d= -f2 app_version.txt 
-;echo "tag the newly created image to the repo";
+        sh '''version=$(cut -d= -f2 app_version.txt );echo "tag the newly created image to the repo";
 
 docker tag maxblogapi:$version 175374130779.dkr.ecr.us-east-2.amazonaws.com/maxblog-repo:$version'''
         sh '$(aws ecr get-login --no-include-email --region us-east-2);docker push 175374130779.dkr.ecr.us-east-2.amazonaws.com/maxblog-repo:latest'
