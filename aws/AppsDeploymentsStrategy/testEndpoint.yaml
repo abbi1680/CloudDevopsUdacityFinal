@@ -1,16 +1,16 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: maxblogapi-service
+  name: maxblogapi-service-test
   labels:
     app: maxblogapi
-    role: {DEPLOYMENT}
+    role: ${DEPLOYMENT}
     env: prod
 spec:
   type: LoadBalancer
   selector:
     app: maxblogapi
-    role: {DEPLOYMENT}
+    role: ${DEPLOYMENT}
   ports:
     - port: 80
       targetPort: 5000
