@@ -2,7 +2,6 @@ import flask
 
 app = flask.Flask(__name__)
 
-testhgj
 @app.route('/')
 def homepage() -> str:
     return flask.render_template('index.html')
