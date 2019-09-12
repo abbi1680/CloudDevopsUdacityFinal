@@ -1,23 +1,20 @@
-apiVersion: apps/v1
+apiVersion: apps/v1beta1
 kind: Deployment
 metadata:
-  name: maxblog-deployment-green
+  name: maxblog-deployment-{DEPLOYMENT}
 spec:
-  selector:
-    matchLabels:
-      app: maxblogapi
   replicas: 2
   template:
     metadata:
       labels:
         app: maxblogapi
-        role: blue
+        role: {DEPLOYMENT}
     spec:
       imagePullSecrets:
       - name: awsecr-cred
       containers:
       - name: maxblogapi
-        image: 175374130779.dkr.ecr.us-east-2.amazonaws.com/maxblog-repo:latest
+        image: 175374130779.dkr.ecr.us-east-2.amazonaws.com/maxblog-repo:${IMAGE_TAG}
         ports:
         - containerPort: 5000
         readinessProbe:

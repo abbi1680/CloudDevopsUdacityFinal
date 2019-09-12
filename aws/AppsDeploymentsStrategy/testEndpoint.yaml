@@ -1,15 +1,16 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: tomcat-test-${TARGET_ROLE}
+  name: maxblogapi-service
   labels:
-    app: tomcat
-    role: test-${TARGET_ROLE}
+    app: maxblogapi
+    role: {DEPLOYMENT}
+    env: prod
 spec:
   type: LoadBalancer
   selector:
-    app: tomcat
-    role: ${TARGET_ROLE}
+    app: maxblogapi
+    role: {DEPLOYMENT}
   ports:
     - port: 80
-      targetPort: 8080
+      targetPort: 5000
