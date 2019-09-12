@@ -81,7 +81,7 @@ done'''
     stage('Switching Services ') {
       steps {
         echo 'Switch the elb to the newly deployed app'
-        sh 'DEPLOYMENT=$(cat inactiveEnv.txt) envsubst < aws/AppsDeploymentsStrate/publicEndpoint.yaml | kubectl apply -f -'
+        sh 'DEPLOYMENT=$(cat inactiveEnv.txt) envsubst < aws/AppsDeploymentsStrategy/publicEndpoint.yaml | kubectl apply -f -'
       }
     }
     stage('Test Prod OK') {
