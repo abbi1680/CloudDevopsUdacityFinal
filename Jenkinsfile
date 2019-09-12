@@ -46,7 +46,7 @@ docker tag maxblogapi:$version 175374130779.dkr.ecr.us-east-2.amazonaws.com/maxb
     stage('check Active Env') {
       steps {
         echo 'check whether Blue or Green Environment is acitve'
-        sh 'kubectl --version;kubectl get deployments | grep maxblogapi |wc -l'
+        sh 'kubectl version;kubectl get deployments | grep maxblogapi |wc -l'
       }
     }
     stage('Deploy') {
