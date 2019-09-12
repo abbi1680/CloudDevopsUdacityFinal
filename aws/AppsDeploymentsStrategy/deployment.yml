@@ -1,14 +1,14 @@
 apiVersion: apps/v1beta1
 kind: Deployment
 metadata:
-  name: maxblog-deployment-{DEPLOYMENT}
+  name: maxblog-deployment-${DEPLOYMENT}
 spec:
   replicas: 2
   template:
     metadata:
       labels:
         app: maxblogapi
-        role: {DEPLOYMENT}
+        role: ${DEPLOYMENT}
     spec:
       imagePullSecrets:
       - name: awsecr-cred

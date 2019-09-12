@@ -4,13 +4,13 @@ metadata:
   name: maxblogapi-service
   labels:
     app: maxblogapi
-    role: {DEPLOYMENT}
+    role: ${DEPLOYMENT}
     env: prod
 spec:
   type: LoadBalancer
   selector:
     app: maxblogapi
-    role: {DEPLOYMENT}
+    role: ${DEPLOYMENT}
   ports:
     - port: 80
       targetPort: 5000
