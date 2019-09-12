@@ -3,7 +3,7 @@ This is the final project implementation of Cloud Devops Nanodegree of Udacity. 
 
 ## Getting Started
 
-### Repo descriptions
+### Project's files
 `aws/network-infra` : It contains scripts to create a registry on Amazon ECR, deploy A VPC (network for kubernetes), deploy an EKS Cluster and NodesWorkers <br />
 `aws/deployments` : It contains deployments descriptions and services to make a blue green deployments with jenkins <br />
 `dockerfile` : instructions to build the container <br />
@@ -29,13 +29,48 @@ A local machine for the developpers or in the cloud to push modifications to git
 
 ### Installing
 
-A step by step series of examples that tell you how to get a development env running
+To have an environnement fully working, you will have to walk through different steps
 
-Say what the step will be
+#### Dev environment
+
+First you have to clone this repository
 
 ```
-Give the example
+git clone  https://github.com/magmax007/CloudDevopsUdacityFinal.git
 ```
+
+make an virtual environment to be able run the app : it will setup the venv and install dependencies for the app
+```
+make setup
+```
+test the app
+
+```
+python3 app.py
+```
+Build a container if you want from your local (need the installation of Docker)
+```
+./runDocker.sh
+```
+Notice : there is no need to build the container from your own : it will be done automatically in the pipeline with jenkins
+
+#### Amazon ECR 
+
+To be able to push a container to a registry - we use here amazon ecr - We have to create it on amazon AWS
+
+```
+./aws/createECR.sh
+```
+#### Amazon EKS
+to build the EKS cluster with an complete environment we will do it in 3 steps 
+
+Building the network : VPC, private an public subnets routing table , nate gateways .....
+```
+cd aws/network-infra/
+./create.sh infraFinalProject network.yml network-parameters.json
+
+```
+
 
 And repeat
 
