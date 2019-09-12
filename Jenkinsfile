@@ -4,6 +4,8 @@ pipeline {
     stage('env configuration') {
       steps {
         sh 'make setup;make install'
+        sh ''' pip3 install awscli --upgrade --user
+'''
       }
     }
     stage('Linting') {
