@@ -17,7 +17,7 @@ cd aws/network-infra/
 Building the EKS cluster with aws informations given in the network stack Output 
 ```
 cd aws/network-infra/
-./createEKSCluster.sh
+./clusterCreation.sh
 
 ```
 Creating the node workers with cloudFormation scripts
