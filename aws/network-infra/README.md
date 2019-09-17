@@ -1,29 +1,29 @@
-# UdacityProject2
-udacity cloud devops engeneer project 2
+#### Amazon ECR 
 
-What is it ?
--------------------
-The goal of thi project is to provide some cloudformation scripts to deploy web servers for a highly available web app.
+To be able to push a container to a registry - we use here amazon ecr - We have to create it on amazon AWS
 
+```
+./aws/createECR.sh
+```
+#### Amazon EKS
+to build the EKS cluster with an complete environment we will do it in 3 steps 
 
-how is the project cut out ?
-------------------------------
-there are two parts in this project 
-    - network scripts 
-    - servers scripts
+Building the network with CloudFormation : VPC, private an public subnets routing table , nate gateways .....
+```
+cd aws/network-infra/
+./create.sh infraFinalProject network.yml network-parameters.json
 
-what are the requirements to run it ?
--------------------
-Amazon aws account and a bucket already deployed having the web app code . Don't forget to adapt the userData to match your webapp sources location
+```
+Building the EKS cluster with aws informations given in the network stack Output 
+```
+cd aws/network-infra/
+./clusterCreation.sh
 
-how to run it ?
--------------------
-  you can run the part as followed :
-  
-    ./create.sh [stackName1] network.yml network-parameters.json
-    ./create.sh [stackName2] servers.yml servers-parameters.json
+```
+Creating the node workers with cloudFormation scripts
 
-how to test that it works
-----------------------------
-here is the url for testing
-http://serve-webap-flxd0his2vsz-764629811.us-west-2.elb.amazonaws.com/
+```
+cd aws/network-infra/
+./create-noparam.sh finalProjectNodeWorkers.yml
+
+```

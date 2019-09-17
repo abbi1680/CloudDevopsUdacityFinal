@@ -96,12 +96,21 @@ All you need to do is modify the code and push it on your repo and de pipeline w
 
 
 ## Blue Green Deployment
-
+i will describe what i have done in the jenkins pipeline <br/>
 The blue green is done here with kubernetes pods. <br/>
- At the beginning we have 2 pods and a service endpoint as the production env (it is the blue pods) <br/>
- When the new code is pushed, the pipeline build a new version , push it to ECR and deploy it as new pods (green pods) on the cluster <br/
+the first time the pipeline is launched, if there is no deployments already , it will assign to the new deployment an initial color.
+### Step 1
+ 2 pods and a service endpoint as the production env (it is the blue pods) exist<br/>
+ the pipeline checks for the inactive color
+ ### Step 2
+ When a new version is pushed, the pipeline build a new version , push it to ECR and deploy it as new pods (green pods) on the cluster <br/>
  Notice : for the moment only blue pods are exposed by the service ELB .<br/>
- we have a second service with the purpose to only test the newly created pods before exposing it <br/>
- When all tests are done, just switch the service ELB selector to green to switch the pods exposed.
+ ### Step 3
+ I build a second service with the purpose to only test the newly created pods before exposing it <br/>
+ Tests are done here before exposing it to the world
+ ### Step 4 
+ When all tests are done, the pipeline switch the service ELB selector to green to switch the pods exposed.
+ ### Step 5
+ If there is no need to rollback, old deployment is deleted
  
 
