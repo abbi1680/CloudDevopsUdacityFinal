@@ -1,1 +1,1 @@
-appver=2.0.0
+appver=3.0.0
